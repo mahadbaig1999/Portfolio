@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+
+/**
+ * Layout.astro — Base HTML shell for every page.
+ *
+ * HOW TO CUSTOMISE:
+ *  • Change default title/description below, or pass them as props from index.astro.
+ *  • Add extra <meta> tags (canonical URL, Open Graph image, Twitter card) here.
+ *  • The background glow blobs are purely decorative with warm amber/orange tones.
+ */
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Mahad Baig | Developer Portfolio",
+  description = "Portfolio of Mahad Baig — Developer. Dream Big. Explore projects, skills, and get in touch."
+} = Astro.props;
+
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- ── SEO ──────────────────────────────────────────────────────────── -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
+
+    <!-- Open Graph (LinkedIn / Facebook previews) -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalURL && <meta property="og:url" content={canonicalURL} />}
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Browser chrome colour (mobile address bar) -->
+    <meta name="theme-color" content="#0b0f19" />
+  </head>
+
+  <body class="min-h-screen bg-[#0b0f19] text-gray-100 antialiased selection:bg-amber-500 selection:text-black">
+
+    <!-- ── Decorative ambient warm glow blobs (fixed, behind all content) ─ -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/3  -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Page content -->
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,31 @@
+---
+/**
+ * Footer.astro — Minimalist site footer.
+ *
+ * WHAT'S HERE:
+ *   • Copyright line with auto-updating year
+ *
+ * NOTE:
+ *   • Nav links, back-to-top name action, and social links removed per user preferences.
+ */
+
+import { portfolioData } from '../data/portfolio';
+const { personal } = portfolioData;
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class="border-t border-gray-800/80 bg-[#070a12] py-8 text-gray-400"
+  role="contentinfo"
+>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 text-center">
+    <p class="text-sm text-gray-500">
+      &copy; {currentYear} <span class="text-gray-300 font-medium">{personal.name}</span>. All rights reserved.
+      Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer"
+        class="text-gray-400 hover:text-amber-400 transition-colors underline underline-offset-2">Astro</a>
+      &amp; <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer"
+        class="text-gray-400 hover:text-amber-400 transition-colors underline underline-offset-2">Tailwind CSS</a>.
+    </p>
+  </div>
+</footer>

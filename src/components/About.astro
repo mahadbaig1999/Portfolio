@@ -1,0 +1,173 @@
+---
+/**
+ * About.astro — About Me & Skills section.
+ *
+ * Typography scaled up for optimal readability.
+ */
+
+import { portfolioData } from '../data/portfolio';
+const { about, skills } = portfolioData;
+---
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     ABOUT SECTION
+════════════════════════════════════════════════════════════════════════════ -->
+<section
+  id="about"
+  aria-labelledby="about-heading"
+  class="py-28 border-t border-gray-800/60"
+>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+
+    <!-- ── Section Label & Heading ──────────────────────────────────────── -->
+    <div class="mb-16 text-center reveal">
+      <p class="text-sm font-semibold tracking-widest text-amber-400 uppercase mb-3">
+        Get to Know Me
+      </p>
+      <h2
+        id="about-heading"
+        class="inline-block text-4xl sm:text-5xl font-extrabold tracking-tight text-white relative pb-3"
+      >
+        About Me
+        <!-- Amber to orange gradient underline bar -->
+        <span
+          class="absolute bottom-0 left-0 h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500 via-orange-400 to-yellow-400"
+          aria-hidden="true"
+        ></span>
+      </h2>
+      <p class="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-gray-300">
+        A developer who cares about every pixel, every millisecond, and every user.
+      </p>
+    </div>
+
+    <!-- ── Two-column grid ──────────────────────────────────────────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+
+      <!-- ══ LEFT COLUMN: Bio ══════════════════════════════════════════════ -->
+      <div class="lg:col-span-7 space-y-8">
+
+        <!-- Bio card -->
+        <div
+          class="reveal group rounded-2xl border border-gray-800 bg-gray-900/40 p-8 sm:p-9 shadow-sm
+                 transition-all duration-300 hover:border-amber-500/40 hover:shadow-amber-500/10 hover:shadow-lg hover:-translate-y-0.5"
+        >
+          <h3 class="text-sm font-bold tracking-widest text-amber-400 uppercase mb-6 flex items-center gap-2">
+            <span class="h-2 w-4 rounded-full bg-amber-500" aria-hidden="true"></span>
+            My Story
+          </h3>
+
+          <div class="space-y-5 text-gray-300 leading-relaxed">
+            {about.bio.map((paragraph, index) => (
+              <p class={`text-base sm:text-lg leading-relaxed ${index === 0 ? 'text-gray-100 font-medium' : 'text-gray-300'}`}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <!-- ── Highlight cards ───────────────────────────────────────────── -->
+        <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {about.highlights.map((h) => (
+            <div
+              class="group relative overflow-hidden rounded-xl border border-gray-800 bg-gray-900/40 p-6 text-center
+                     transition-all duration-300 hover:border-amber-500/50 hover:bg-gray-900/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-amber-500/10"
+            >
+              <div
+                class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500
+                       scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                aria-hidden="true"
+              ></div>
+
+              <p class="text-base font-bold text-white group-hover:text-amber-300 transition-colors">{h.label}</p>
+              <p class="mt-2 text-sm text-gray-300 leading-relaxed">{h.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <!-- ══ END LEFT COLUMN ═══════════════════════════════════════════════ -->
+
+
+      <!-- ══ RIGHT COLUMN: Skills ══════════════════════════════════════════ -->
+      <div id="skills" class="lg:col-span-5 space-y-6">
+
+        <div class="reveal">
+          <p class="text-sm font-semibold tracking-widest text-amber-400 uppercase mb-1">
+            What I Work With
+          </p>
+          <h3 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            Skills & Tools
+          </h3>
+          <p class="mt-2 text-base text-gray-300">
+            Technologies and practices I reach for to build great products.
+          </p>
+        </div>
+
+        <div class="space-y-5">
+          {skills.map((group, groupIndex) => (
+            <div
+              class="reveal group rounded-2xl border border-gray-800 bg-gray-900/40 p-6
+                     transition-all duration-300 hover:border-amber-500/40 hover:shadow-md hover:shadow-amber-500/10 hover:-translate-y-0.5"
+              style={`animation-delay: ${groupIndex * 80}ms`}
+            >
+              <h4 class="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2.5 mb-4">
+                <span class="h-2 w-2 rounded-full bg-amber-500" aria-hidden="true"></span>
+                {group.category}
+              </h4>
+
+              <div class="flex flex-wrap gap-2.5" role="list" aria-label={`${group.category} skills`}>
+                {group.items.map((skill) => (
+                  <span
+                    role="listitem"
+                    class="inline-flex items-center gap-2 rounded-lg border border-gray-700/80 bg-gray-800/60 px-3.5 py-2 text-sm font-medium text-gray-200
+                           cursor-default select-none
+                           transition-all duration-200
+                           hover:border-amber-500/60 hover:bg-amber-500/10 hover:text-white hover:scale-105 hover:shadow-sm hover:shadow-amber-500/20"
+                  >
+                    <span class="h-1.5 w-1.5 rounded-full bg-amber-400 flex-shrink-0" aria-hidden="true"></span>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <!-- ══ END RIGHT COLUMN ══════════════════════════════════════════════ -->
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SCROLL-REVEAL ANIMATION
+════════════════════════════════════════════════════════════════════════════ -->
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  revealEls.forEach((el) => observer.observe(el));
+</script>
