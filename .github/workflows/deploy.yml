@@ -9,19 +9,14 @@ jobs:
   build-on-ec2:
     runs-on: ubuntu-latest
     steps:
-      - name: Configure SSH and run build on EC2
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_PORT: ${{ secrets.EC2_PORT }}
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p "${EC2_PORT:-22}" -H "$EC2_HOST" >> ~/.ssh/known_hosts
-
-          ssh -i ~/.ssh/id_ed25519 -p "${EC2_PORT:-22}" "$EC2_USER@$EC2_HOST" '
+      - name: Run build on EC2 via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          port: ${{ secrets.EC2_PORT }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
             set -e
             cd /home/ubuntu/Portfolio
             git fetch origin main
@@ -30,4 +25,3 @@ jobs:
             npm run build
             chmod 755 /home/ubuntu
             chmod -R o+rX /home/ubuntu/Portfolio/dist
-          '
