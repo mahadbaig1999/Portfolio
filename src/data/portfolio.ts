@@ -22,7 +22,7 @@ export interface AboutData {
 export const portfolioData = {
   personal: {
     name: "Mahad Baig",
-    title: "DevSec",
+    title: "DevOps",
     tagline: "Dream Big",
     subtitle: "Turning ambitious ideas into fast, elegant, and accessible web experiences.",
     avatar: "/images/avatar.svg",
