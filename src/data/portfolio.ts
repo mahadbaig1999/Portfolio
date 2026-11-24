@@ -23,7 +23,7 @@ export const portfolioData = {
   personal: {
     name: "Mahad Baig",
     title: "DevOPS",
-    tagline: "Dream Big",
+    tagline: "Think Fast",
     subtitle: "Turning ambitious ideas into fast, elegant, and accessible web experiences.",
     avatar: "/images/avatar.svg",
     location: "Global / Remote",
