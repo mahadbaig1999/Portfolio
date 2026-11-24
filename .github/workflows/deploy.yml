@@ -1,0 +1,24 @@
+name: Deploy Astro to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies and build Astro
+        run: |
+          npm ci
+          npm run build
+
+      - name: Publish dist to Nginx web root
+        run: |
+          mkdir -p /home/ubuntu/Portfolio/dist
+          rm -rf /home/ubuntu/Portfolio/dist/*
+          cp -r dist/* /home/ubuntu/Portfolio/dist/
