@@ -1,4 +1,4 @@
-name: Deploy Astro to EC2
+name: Trigger EC2 Build from GitHub Runner
 
 on:
   push:
@@ -6,19 +6,28 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: self-hosted
+  build-on-ec2:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies and build Astro
+      - name: Configure SSH and run build on EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_PORT: ${{ secrets.EC2_PORT }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
-          npm ci
-          npm run build
+          mkdir -p ~/.ssh
+          echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "${EC2_PORT:-22}" -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-      - name: Publish dist to Nginx web root
-        run: |
-          mkdir -p /home/ubuntu/Portfolio/dist
-          rm -rf /home/ubuntu/Portfolio/dist/*
-          cp -r dist/* /home/ubuntu/Portfolio/dist/
+          ssh -i ~/.ssh/id_ed25519 -p "${EC2_PORT:-22}" "$EC2_USER@$EC2_HOST" '
+            set -e
+            cd /home/ubuntu/Portfolio
+            git fetch origin main
+            git reset --hard origin/main
+            npm ci
+            npm run build
+            chmod 755 /home/ubuntu
+            chmod -R o+rX /home/ubuntu/Portfolio/dist
+          '
